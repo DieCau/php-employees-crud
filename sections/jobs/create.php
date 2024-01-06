@@ -1,17 +1,18 @@
 <?php include("../../templates/header.php"); ?>
- <br>
+ 
+<br>
 
  <div class="card">
     <div class="card-header">Cargos</div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="nameJob" class="form-label">Nombre del Cargo</label>
+                <label for="namejob" class="form-label">Nombre del Cargo</label>
                 <input
                     type="text"
                     class="form-control"
-                    name="nameJob"
-                    id="nameJob"
+                    name="namejob"
+                    id="namejob"
                     placeholder="Ingrese Cargo..."
                 />
                 <button
