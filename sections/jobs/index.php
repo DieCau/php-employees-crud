@@ -1,3 +1,29 @@
+<?php 
+
+include("../../db.php");
+
+if(isset( $_GET['txtID'])) {
+    $txtID=(isset($_GET['txtID'])) 
+        ? $_GET['txtID']
+        : "";
+
+    $sentence=$conection->prepare("DELETE FROM `tbl_jobs` WHERE id=:id");
+    $sentence->bindParam(":id",$txtID);
+    $sentence->execute(); 
+    
+    header("Location:index.php");
+ 
+}
+
+
+
+$sentence = $conection->prepare("SELECT * FROM `tbl_jobs` ");
+$sentence->execute();
+$list_tbl_jobs=$sentence->fetchAll(PDO::FETCH_ASSOC);
+
+
+?>
+
 <?php include("../../templates/header.php"); ?>
 
 <br/>
@@ -10,7 +36,7 @@
             class="btn btn-success"
             href="create.php"
             role="button"
-            >Agregar Registro</a
+            >Agregar Cargo</a
         >
     </div>
     
@@ -30,26 +56,29 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                <?php foreach ($list_tbl_jobs as $job) { ?>
+                    
                     <tr class="">
-                        <td scope="row">1</td>
-                        <td>Programador Jr.</td>
-                        <td><input
-                            name="btnEdit"
-                            id="btnEdit"
+                        <td scope="row"><?php echo $job['id']; ?></td>
+                        <td><?php echo $job['namejob'];  ?></td>
+                        <td> <a
                             class="btn btn-warning"
-                            type="button"
-                            value="Editar"
-                            />
-                            <input
-                                name="btnDelete"
-                                id="btnDelete"
-                                class="btn btn-danger"
-                                type="button"
-                                value="Eliminar"
-                            />
-                            
+                            href="edit.php?txtID=<?php echo $job['id']; ?>"
+                            role="button"
+                            >Editar</a
+                           >
+                           <a
+                            class="btn btn-danger"
+                            href="index.php?txtID=<?php echo $job['id']; ?>"
+                            role="button"
+                            >Eliminar</a
+                           >
+                                                
                         </td>
                     </tr>
+
+                <?php }  ?>
                 </tbody>
             </table>
         </div> 
