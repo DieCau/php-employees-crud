@@ -1,4 +1,5 @@
 <?php 
+
 include("../../db.php");
 
 if(isset( $_GET['txtID'])) {
@@ -15,19 +16,53 @@ if(isset( $_GET['txtID'])) {
     $nameuser=$register['nameuser'];
     $password=$register['password'];
     $email=$register['email'];
+}
 
+if($_POST) {
+
+    // Tomar los datos del metodo POST
+    $txtID=(isset($_POST['txtID'])
+        ? $_POST['txtID']
+        : "" );
+    
+    $nameuser=(isset($_POST['nameuser'])
+        ? $_POST['nameuser']
+        : "" );
+        
+    $password=(isset($_POST['password'])
+        ? $_POST['password']
+        : "" );
+
+    $email=(isset($_POST['email'])
+        ? $_POST['email']
+        : "" );
+    
+    // Preparar la inserción de los datos
+    $sentence=$conection->prepare("UPDATE `tbl_users` SET
+    nameuser=:nameuser,
+    password=:password,
+    email=:email
+    WHERE id=:id
+    "); 
+    
+    // Asignando los valores que vienen del metodo POST
+    $sentence->bindParam(":nameuser",$nameuser);
+    $sentence->bindParam(":password",$password);
+    $sentence->bindParam(":email",$email);
+    $sentence->bindParam(":id",$txtID);
+    $sentence->execute(); 
 
     // Redireccionar
     header("Location:index.php");
 }
-
+    
 ?>
 
 <?php include("../../templates/header.php"); ?>
- 
- <br>
 
- <div class="card">
+<br>
+
+<div class="card">
     <div class="card-header">Usuarios</div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
@@ -87,7 +122,7 @@ if(isset( $_GET['txtID'])) {
                 type="submit"
                 class="btn btn-success"
             >
-                Agregar
+                Actualizar
             </button>
             <a
                 name=""
