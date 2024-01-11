@@ -1,3 +1,29 @@
+<?php 
+include("../../db.php");
+
+
+if(isset( $_GET['txtID'])) {
+    $txtID=(isset($_GET['txtID'])) 
+        ? $_GET['txtID']
+        : "";
+
+    $sentence=$conection->prepare("DELETE FROM `tbl_users` WHERE id=:id");
+    $sentence->bindParam(":id",$txtID);
+    $sentence->execute(); 
+    
+    header("Location:index.php");
+ 
+}
+
+
+$sentence = $conection->prepare("SELECT * FROM `tbl_users` ");
+$sentence->execute();
+$list_tbl_users=$sentence->fetchAll(PDO::FETCH_ASSOC);
+
+
+?>
+
+
 <?php include("../../templates/header.php"); ?>
 
 <br/>
@@ -32,28 +58,32 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                <?php foreach ($list_tbl_users as $user) { ?>
+                    
                     <tr class="">
-                        <td scope="row">1</td>
-                        <td>Diego</td>
-                        <td>******</td>
-                        <td>dc@gmail.com</td>
-                        <td><input
-                            name="btnEdit"
-                            id="btnEdit"
+                       <td scope="row"><?php echo $user['id']; ?></td>
+                       <td><?php echo $user['nameuser']; ?></td>
+                       <td>******</td>
+                       <td><?php echo $user['email']; ?></td>
+                       <td><a
                             class="btn btn-warning"
-                            type="button"
-                            value="Editar"
-                            />
-                            <input
-                                name="btnDelete"
-                                id="btnDelete"
-                                class="btn btn-danger"
-                                type="button"
-                                value="Eliminar"
-                            />
+                            href="edit.php?txtID=<?php echo $user['id']; ?>"
+                            role="button"
+                            >Editar</a
+                           >
+                           <a
+                            class="btn btn-danger"
+                            href="index.php?txtID=<?php echo $user['id']; ?>"
+                            role="button"
+                            >Eliminar</a
+                           >
                             
                         </td>
                     </tr>
+                
+                <?php }  ?>
+
                 </tbody>
             </table>
         </div> 

@@ -1,3 +1,39 @@
+<?php 
+
+include("../../db.php");
+
+if($_POST) {
+
+    // Tomar los datos del metodo POST
+    $nameuser=(isset($_POST['nameuser'])
+        ? $_POST['nameuser']
+        : "" );
+        
+    $password=(isset($_POST['password'])
+        ? $_POST['password']
+        : "" );
+
+    $email=(isset($_POST['email'])
+        ? $_POST['email']
+        : "" );
+    
+    // Preparar la inserción de los datos
+    $sentence=$conection->prepare("INSERT INTO `tbl_users` (`id`, `nameuser`, `password`, `email`) 
+              VALUES (NULL, :nameuser, :password, :email)"); 
+    
+    // Asignando los valores que vienen del metodo POST
+    $sentence->bindParam(":nameuser",$nameuser);
+    $sentence->bindParam(":password",$password);
+    $sentence->bindParam(":email",$email);
+    $sentence->execute(); 
+
+    // Redireccionar
+    header("Location:index.php");
+
+}
+
+?>
+
 <?php include("../../templates/header.php"); ?>
  
  <br>

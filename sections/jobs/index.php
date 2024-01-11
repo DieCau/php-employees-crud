@@ -62,7 +62,7 @@ $list_tbl_jobs=$sentence->fetchAll(PDO::FETCH_ASSOC);
                     <tr class="">
                         <td scope="row"><?php echo $job['id']; ?></td>
                         <td><?php echo $job['namejob'];  ?></td>
-                        <td> <a
+                        <td><a
                             class="btn btn-warning"
                             href="edit.php?txtID=<?php echo $job['id']; ?>"
                             role="button"
